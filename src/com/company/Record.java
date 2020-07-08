@@ -4,13 +4,15 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Record implements Cloneable {
-    private final long id;
+    public long id;
     private String FIO;
     private String bornDate;
     private int numbers;
     private String address;
     private long timeCreateFields;
 
+    public Record() {
+    }
 
     public Record(long id, String FIO, String bornDate, int numbers, String address, long timeCreateFields) {
         this.id = id;
@@ -21,10 +23,7 @@ public class Record implements Cloneable {
         this.timeCreateFields = timeCreateFields;
     }
 
-    public Record(long recordId, Map<Long, Record> records) {
 
-        id = 0;
-    }
 
     public long getId() {
         return id;
@@ -79,6 +78,7 @@ public class Record implements Cloneable {
     public int hashCode() {
         return Objects.hash(getId(), getFIO(), getBornDate(), getNumbers(), getAddress(), getTimeCreateFields());
     }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();

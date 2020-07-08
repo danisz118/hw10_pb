@@ -2,6 +2,7 @@ package com.company;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,25 +10,11 @@ import java.util.*;
 
 public class AddressBook {
     public Map<Long, Record> records = new HashMap<>();
-    private long nextId;
 
-    private long getNextId() {
-        if (nextId < Long.MAX_VALUE && !records.containsKey(nextId))
-            return nextId++;
-        nextId = 0;
-        while (nextId < Long.MAX_VALUE) {
-            if (!records.containsKey(nextId))
-                return nextId;
-            ++nextId;
-        }
+    public Record addRecord(long id,String FIO, String bornDate, int numbers, String address, long timeCreateFields) throws CloneNotSupportedException {
 
-        return 0;
-    }
-
-    public Record addRecord(String FIO, String bornDate, int numbers, String address, long timeCreateFields) throws CloneNotSupportedException {
-        long recordId = getNextId();
-        Record record = new Record(recordId, FIO, bornDate, numbers, address, timeCreateFields);
-        records.put(recordId, record);
+        Record record = new Record(id, FIO, bornDate, numbers, address, timeCreateFields);
+        records.put(id, record);
         return (Record) record.clone();
     }
 
@@ -50,7 +37,7 @@ public class AddressBook {
     }
 
     public List<Record> allRecords() {
-        List<Record> result = new ArrayList<Record>();
+        List<Record> result = new ArrayList<>();
         for (Record record : this.records.values())
             result.add(record);
         return result;
@@ -64,12 +51,32 @@ public class AddressBook {
     }
 
 
-    public Map<Long, Record> fromJsonToMap(String json) {
-        Gson gson = new Gson();
-        return gson.fromJson(json,new TypeToken<Map<Long, Record>>(){}.getType());
+    public AddressBook fromJsonToMap(String json) {
+        Gson gson = new GsonBuilder().setLenient().create();
+        return gson.fromJson(json, AddressBook.class);
 
     }
 
+/*
+    public void fromJsonToMap() throws IOException {
+        String json = fileReader();
+        System.out.println(json);
+        Gson gson = new Gson();
+        records = gson.fromJson(json, new TypeToken<Map<Long, Record>>() {}.getType());
+        ;
+
+    }
+
+*/
+
+/*
+public AddressBook fromJsonToMap(String json) {
+    Gson gson = new GsonBuilder().setLenient().create();
+    return gson.fromJson(json, AddressBook.class);
+
+}
+
+ */
 
     public void fileWriter(String json) throws IOException {
         FileWriter fileWriter = new FileWriter("C:\\pbTask\\HW10\\src\\com\\company\\file.json");
