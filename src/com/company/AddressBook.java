@@ -7,6 +7,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,16 +19,17 @@ public class AddressBook {
     private final static String FILE_NAME = "file.json";
     private final Gson GSON = new Gson();
     private Map<Long, Record> records = new HashMap<>();
+    private Date date = new Date();
 
-    public Record addRecord(long id, String FIO, String bornDate, int numbers, String address, long timeCreateFields)
+    public Record addRecord(long id, String FIO, String bornDate, String numbers, String address, long timeCreateFields)
             throws CloneNotSupportedException {
         records.put(id, new Record(id, FIO, bornDate, numbers, address, timeCreateFields));
         return getRecord(id);
     }
 
-    public Record updateRecord(long id, String FIO, String bornDate, int numbers, String address)
+    public Record updateRecord(long id, String FIO, String bornDate, String numbers, String address)
             throws CloneNotSupportedException {
-        return addRecord(id, FIO, bornDate, numbers, address, 0);
+        return addRecord(id, FIO, bornDate, numbers, address, date.getTime());
     }
 
     public Record getRecord(long id) throws CloneNotSupportedException {
