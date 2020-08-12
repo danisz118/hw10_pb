@@ -6,10 +6,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -19,7 +16,16 @@ public class AddressBook {
     private final static String FILE_NAME = "file.json";
     private final Gson GSON = new Gson();
     private Map<Long, Record> records = new HashMap<>();
+    private TreeMap<Long, Record> sorted = new TreeMap<>(records);
     private Date date = new Date();
+
+
+    public void sortByKey() {
+        sorted.putAll(records);
+        for (Map.Entry<Long, Record> entry : sorted.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + ". Value: " + entry.getValue());
+        }
+    }
 
     public Record addRecord(long id, String FIO, String bornDate, String numbers, String address, long timeCreateFields)
             throws CloneNotSupportedException {
@@ -30,6 +36,7 @@ public class AddressBook {
     public Record updateRecord(long id, String FIO, String bornDate, String numbers, String address)
             throws CloneNotSupportedException {
         return addRecord(id, FIO, bornDate, numbers, address, date.getTime());
+
     }
 
     public Record getRecord(long id) throws CloneNotSupportedException {
@@ -39,6 +46,7 @@ public class AddressBook {
     public void removeRecord(long id) {
         records.remove(id);
     }
+
 
     public Collection<Record> allRecords() {
         return records.values();
@@ -64,5 +72,13 @@ public class AddressBook {
             return stream.collect(Collectors.joining("\r\n"));
         }
     }
+
+
+
 }
+
+
+
+
+
 

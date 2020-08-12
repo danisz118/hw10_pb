@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.Objects;
 
-public class Record implements Cloneable {
+public class Record implements Cloneable, Comparable<Record> {
     public long id;
     private String FIO;
     private String bornDate;
@@ -21,7 +21,6 @@ public class Record implements Cloneable {
         this.address = address;
         this.timeCreateFields = timeCreateFields;
     }
-
 
 
     public long getId() {
@@ -81,6 +80,12 @@ public class Record implements Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @Override
+    public int compareTo(Record o) {
+        return (int) (this.id - o.getId());
+
     }
 
 }
